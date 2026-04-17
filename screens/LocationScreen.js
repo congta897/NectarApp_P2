@@ -52,6 +52,11 @@ export default function LocationScreen({ navigation }) {
       >
         <Text style={styles.submitText}>Submit</Text>
       </TouchableOpacity>
+      <View style={styles.centerContainer}>
+          <Text style={styles.userInfo}>
+            Nguyễn Mạnh Toàn - 23810310262
+          </Text>
+        </View>
     </View>
   );
 }
@@ -133,5 +138,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+  },
+    userInfo: {
+    fontSize: 14,
+    color: '#999',
+  },
+  centerContainer: {
+    alignItems: 'center',
+    marginTop: 20,
   },
 });

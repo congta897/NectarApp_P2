@@ -1,4 +1,3 @@
-// screens/LoginScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 
@@ -11,19 +10,17 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      {/* Logo Cà Rốt trên cùng */}
       <View style={styles.logoContainer}>
-        <Image 
-          source={require('../assets/CaRot.png')} 
-          style={styles.carrotLogo} 
-          resizeMode="contain" 
+        <Image
+          source={require('../assets/CaRot.png')}
+          style={styles.carrotLogo}
+          resizeMode="contain"
         />
       </View>
 
       <Text style={styles.title}>Loging</Text>
       <Text style={styles.subtitle}>Enter your emails and password</Text>
 
-      {/* Email Field */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
         <TextInput
@@ -35,7 +32,6 @@ export default function LoginScreen({ navigation }) {
         />
       </View>
 
-      {/* Password Field */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Password</Text>
         <View style={styles.passwordWrapper}>
@@ -46,41 +42,40 @@ export default function LoginScreen({ navigation }) {
             secureTextEntry={!showPassword}
             placeholder="••••••••••"
           />
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.eyeButton}
             onPress={() => setShowPassword(!showPassword)}
           >
-            <Text style={styles.eyeIcon}>
-              {showPassword ? '🙈' : '👁️'}
-            </Text>
+            <Text style={styles.eyeIcon}>{showPassword ? '🙈' : '👁️'}</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Forgot Password */}
       <TouchableOpacity style={styles.forgotContainer}>
         <Text style={styles.forgotText}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      {/* Button Log In */}
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => alert('Đăng nhập thành công!')}
+        onPress={() => navigation.replace('Home')}
       >
         <Text style={styles.loginButtonText}>Log In</Text>
       </TouchableOpacity>
 
-      {/* Sign up Link */}
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>
           Don't have an account?{' '}
-          <Text 
+          <Text
             style={styles.signupLink}
             onPress={() => navigation.navigate('Signup')}
           >
             Singup
           </Text>
         </Text>
+      </View>
+
+      <View style={styles.centerContainer}>
+        <Text style={styles.userInfo}>Nguyen Manh Toan - 23810310262</Text>
       </View>
     </View>
   );
@@ -113,7 +108,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 35,
   },
-
   inputContainer: {
     marginBottom: 20,
   },
@@ -129,6 +123,7 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
     backgroundColor: '#F9F9F9',
+    flex: 1,
   },
   passwordWrapper: {
     flexDirection: 'row',
@@ -144,7 +139,6 @@ const styles = StyleSheet.create({
   eyeIcon: {
     fontSize: 22,
   },
-
   forgotContainer: {
     alignItems: 'flex-end',
     marginBottom: 30,
@@ -153,7 +147,6 @@ const styles = StyleSheet.create({
     color: '#53B175',
     fontSize: 14,
   },
-
   loginButton: {
     backgroundColor: '#53B175',
     paddingVertical: 18,
@@ -166,7 +159,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-
   signupContainer: {
     alignItems: 'center',
   },
@@ -177,5 +169,13 @@ const styles = StyleSheet.create({
   signupLink: {
     color: '#53B175',
     fontWeight: '600',
+  },
+  userInfo: {
+    fontSize: 14,
+    color: '#999',
+  },
+  centerContainer: {
+    alignItems: 'center',
+    marginTop: 20,
   },
 });

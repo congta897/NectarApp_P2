@@ -48,6 +48,11 @@ export default function SignupScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.link}>Already have an account? Log in</Text>
         </TouchableOpacity>
+        <View style={styles.centerContainer}>
+          <Text style={styles.userInfo}>
+            Nguyễn Mạnh Toàn - 23810310262
+          </Text>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -73,4 +78,6 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: '#fff', fontSize: 18, fontWeight: '600', textAlign: 'center' },
   link: { color: '#53B175', textAlign: 'center', marginTop: 30, fontSize: 16 },
+  userInfo: { fontSize: 14, color: '#999' },
+  centerContainer: { alignItems: 'center', marginTop: 20 },
 });

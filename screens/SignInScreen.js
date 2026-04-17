@@ -9,7 +9,7 @@ export default function SignInScreen({ navigation }) {
 
       {/* Ảnh rau củ quả trên top */}
       <Image 
-        source={require('../assets/ảnh rau củ quả.png')} 
+        source={require('../assets/raucuqua.png')} 
         style={styles.topImage} 
         resizeMode="full" 
       />
@@ -49,6 +49,11 @@ export default function SignInScreen({ navigation }) {
         />
         <Text style={styles.socialText}>Continue with Facebook</Text>
       </TouchableOpacity>
+      <View style={styles.centerContainer}>
+          <Text style={styles.userInfo}>
+            Nguyễn Mạnh Toàn - 23810310262
+          </Text>
+        </View>
     </View>
   );
 }
@@ -141,5 +146,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  userInfo: {
+    fontSize: 14,
+    color: '#999',
+  },
+  centerContainer: {
+    alignItems: 'center',
+    marginTop: 20,
   },
 });

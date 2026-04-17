@@ -43,6 +43,11 @@ export default function VerificationScreen({ navigation }) {
         <TouchableOpacity>
           <Text style={styles.resend}>Resend Code</Text>
         </TouchableOpacity>
+        <View style={styles.centerContainer}>
+          <Text style={styles.userInfo}>
+            Nguyễn Mạnh Toàn - 23810310262
+          </Text>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -73,4 +78,6 @@ const styles = StyleSheet.create({
   disabled: { backgroundColor: '#cccccc' },
   buttonText: { color: '#fff', fontSize: 18, fontWeight: '600', textAlign: 'center' },
   resend: { color: '#53B175', textAlign: 'center', marginTop: 30 },
+  centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },   
+  userInfo: { fontSize: 16, color: '#999' },
 });
