@@ -8,78 +8,40 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-const beverages = [
-  {
-    id: 'diet-coke',
-    title: 'Diet Coke',
-    subtitle: '355ml, Price',
-    price: '$1.99',
-    image: require('../assets/coke.png'),
-  },
-  {
-    id: 'sprite',
-    title: 'Sprite Can',
-    subtitle: '325ml, Price',
-    price: '$1.50',
-    image: require('../assets/sprite.png'),
-  },
-  {
-    id: 'apple-grape',
-    title: 'Apple & Grape\nJuice',
-    subtitle: '2L, Price',
-    price: '$15.99',
-    image: require('../assets/nước táo.png'),
-  },
-  {
-    id: 'orange',
-    title: 'Orange Juice',
-    subtitle: '2L, Price',
-    price: '$15.99',
-    image: require('../assets/nước cam.png'),
-  },
-  {
-    id: 'coca',
-    title: 'Coca Cola Can',
-    subtitle: '325ml, Price',
-    price: '$4.99',
-    image: require('../assets/coca.png'),
-  },
-  {
-    id: 'pepsi',
-    title: 'Pepsi Can',
-    subtitle: '330ml, Price',
-    price: '$4.99',
-    image: require('../assets/pepsi.png'),
-  },
-];
+import { beverageProductIds, formatPrice, getProductImage, getProductsByIds } from '../data';
 
 export default function BeveragesScreen({ navigation }) {
+  const beverages = getProductsByIds(beverageProductIds);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}>
           <Text style={styles.backIcon}>{'<'}</Text>
         </TouchableOpacity>
+
         <Text style={styles.title}>Beverages</Text>
-        <Text style={styles.filterIcon}>≡</Text>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('Filters', { sourceScreen: 'Beverages' })}
+        >
+          <Text style={styles.filterIcon}>☰</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.grid}>
         {beverages.map((item) => (
           <View key={item.id} style={styles.card}>
-            <Image
-              // Thay ảnh sản phẩm đồ uống của bạn tại đây.
-              source={item.image}
-              style={styles.cardImage}
-              resizeMode="contain"
-            />
+            <Image source={getProductImage(item.imageKey)} style={styles.cardImage} resizeMode="contain" />
             <Text style={styles.cardTitle}>{item.title}</Text>
             <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
+
             <View style={styles.priceRow}>
-              <Text style={styles.price}>{item.price}</Text>
-              <TouchableOpacity style={styles.addButton}>
+              <Text style={styles.price}>{formatPrice(item.price)}</Text>
+              <TouchableOpacity activeOpacity={0.85} style={styles.addButton}>
                 <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
             </View>

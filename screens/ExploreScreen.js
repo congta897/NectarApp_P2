@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -9,106 +9,96 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import BottomNav from '../components/BottomNav';
+import {
+  formatPrice,
+  getProductImage,
+  matchesProductSearch,
+  products,
+} from '../data';
 
-const categories = [
-  {
-    id: 'frash-fruits',
-    title: 'Frash Fruits\n& Vegetable',
-    image: require('../assets/rau cu.png'),
-    backgroundColor: '#EEF7F1',
-    borderColor: '#C4E3CC',
-  },
-  {
-    id: 'oil',
-    title: 'Cooking Oil\n& Ghee',
-    image: require('../assets/dầu.png'),
-    backgroundColor: '#FFF8E5',
-    borderColor: '#F2D9A5',
-  },
-  {
-    id: 'meat',
-    title: 'Meat & Fish',
-    image: require('../assets/thịt.png'),
-    backgroundColor: '#FDEDED',
-    borderColor: '#E9C2C2',
-  },
-  {
-    id: 'bakery',
-    title: 'Bakery & Snacks',
-    image: require('../assets/bánh.png'),
-    backgroundColor: '#FFF5E7',
-    borderColor: '#F3D6A6',
-  },
-  {
-    id: 'dairy',
-    title: 'Dairy & Eggs',
-    image: require('../assets/trứng.png'),
-    backgroundColor: '#F1F6FF',
-    borderColor: '#C8D6F0',
-  },
-  {
-    id: 'beverages',
-    title: 'Beverages',
-    image: require('../assets/nước.png'),
-    backgroundColor: '#FEF0F7',
-    borderColor: '#E6B8CF',
-    onPress: 'Beverages',
-  },
-];
+export default function ExploreScreen({ navigation, route }) {
+  const title = route.params?.title || 'Search';
+  const incomingQuery = route.params?.initialQuery;
+  const activeFilterId = route.params?.activeFilterId || null;
+  const activeFilterGroup = route.params?.activeFilterGroup || null;
+  const [query, setQuery] = useState(typeof incomingQuery === 'string' ? incomingQuery : '');
 
-export default function ExploreScreen({ navigation }) {
+  useEffect(() => {
+    setQuery(typeof incomingQuery === 'string' ? incomingQuery : '');
+  }, [incomingQuery]);
+
+  const filteredProducts = products.filter((item) => matchesProductSearch(item, query));
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
       <View style={styles.header}>
-        <Text style={styles.title}>Find Products</Text>
+        <Text style={styles.title}>{title}</Text>
       </View>
 
-      <View style={styles.searchBox}>
-        <Text style={styles.searchIcon}>⌕</Text>
-        <TextInput
-          placeholder="Search Store"
-          placeholderTextColor="#7C7C7C"
-          style={styles.searchInput}
-        />
+      <View style={styles.searchRow}>
+        <View style={styles.searchBox}>
+          <Text style={styles.searchIcon}>⌕</Text>
+          <TextInput
+            value={query}
+            onChangeText={setQuery}
+            placeholder="Search Store"
+            placeholderTextColor="#7C7C7C"
+            style={styles.searchInput}
+          />
+          {query ? (
+            <TouchableOpacity activeOpacity={0.8} style={styles.clearButton} onPress={() => setQuery('')}>
+              <Text style={styles.clearIcon}>×</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        <TouchableOpacity
+          activeOpacity={0.85}
+          style={styles.filterButton}
+          onPress={() =>
+            navigation.navigate('Filters', {
+              sourceScreen: 'Explore',
+              activeFilterId,
+              activeFilterGroup,
+            })
+          }
+        >
+          <Text style={styles.filterIcon}>☰</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.grid}>
-        {categories.map((item) => (
+        {filteredProducts.map((item) => (
           <TouchableOpacity
             key={item.id}
             activeOpacity={0.85}
-            style={[styles.card, { backgroundColor: item.backgroundColor, borderColor: item.borderColor }]}
-            onPress={() => item.onPress && navigation.navigate(item.onPress)}
+            style={styles.card}
+            onPress={() => item.detailRoute && navigation.navigate(item.detailRoute)}
           >
-            <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
+            <Image source={getProductImage(item.imageKey)} style={styles.cardImage} resizeMode="contain" />
             <Text style={styles.cardTitle}>{item.title}</Text>
+            <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
+            <View style={styles.priceRow}>
+              <Text style={styles.price}>{formatPrice(item.price)}</Text>
+              <TouchableOpacity activeOpacity={0.85} style={styles.addButton}>
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         ))}
+
+        {!filteredProducts.length ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>Khong tim thay san pham</Text>
+            <Text style={styles.emptySubtitle}>Thu tim voi tu khoa khac.</Text>
+          </View>
+        ) : null}
       </ScrollView>
 
-      <BottomNav active="Explore" onHomePress={() => navigation.navigate('Home')} />
-    </View>
-  );
-}
-
-function BottomNav({ active, onHomePress }) {
-  const items = [
-    { label: 'Shop', icon: '⌂', onPress: onHomePress },
-    { label: 'Explore', icon: '⌕' },
-    { label: 'Cart', icon: '🛒' },
-    { label: 'Favourite', icon: '♡' },
-    { label: 'Account', icon: '☺' },
-  ];
-
-  return (
-    <View style={styles.bottomNav}>
-      {items.map((item) => (
-        <TouchableOpacity key={item.label} style={styles.navItem} onPress={item.onPress} activeOpacity={0.8}>
-          <Text style={[styles.navIcon, active === item.label && styles.navActive]}>{item.icon}</Text>
-          <Text style={[styles.navLabel, active === item.label && styles.navActive]}>{item.label}</Text>
-        </TouchableOpacity>
-      ))}
+      <BottomNav active="Explore" navigation={navigation} />
     </View>
   );
 }
@@ -128,24 +118,57 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#181725',
   },
-  searchBox: {
+  searchRow: {
     marginHorizontal: 20,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchBox: {
+    flex: 1,
     backgroundColor: '#F2F3F2',
     borderRadius: 14,
     paddingHorizontal: 14,
-    paddingVertical: 14,
+    minHeight: 52,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
   },
   searchIcon: {
     fontSize: 18,
-    color: '#181B19',
+    color: '#181725',
     marginRight: 10,
   },
   searchInput: {
     flex: 1,
     fontSize: 14,
+    color: '#181725',
+  },
+  clearButton: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#D9D9D9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 8,
+  },
+  clearIcon: {
+    fontSize: 12,
+    color: '#7C7C7C',
+    lineHeight: 12,
+    fontWeight: '700',
+  },
+  filterButton: {
+    width: 52,
+    height: 52,
+    borderRadius: 14,
+    backgroundColor: '#F2F3F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+  },
+  filterIcon: {
+    fontSize: 18,
     color: '#181725',
   },
   grid: {
@@ -158,58 +181,66 @@ const styles = StyleSheet.create({
   card: {
     width: '47.2%',
     borderWidth: 1,
+    borderColor: '#E2E2E2',
     borderRadius: 18,
-    paddingHorizontal: 10,
-    paddingVertical: 18,
-    alignItems: 'center',
+    paddingHorizontal: 14,
+    paddingTop: 18,
+    paddingBottom: 14,
     marginBottom: 16,
   },
   cardImage: {
-    width: 74,
-    height: 74,
+    width: '100%',
+    height: 92,
     marginBottom: 14,
   },
   cardTitle: {
     fontSize: 16,
     fontWeight: '600',
-    textAlign: 'center',
     color: '#181725',
-    lineHeight: 22,
-  },
-  bottomNav: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    paddingTop: 14,
-    paddingBottom: 26,
-    paddingHorizontal: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    shadowColor: '#000000',
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: -4 },
-    shadowRadius: 12,
-    elevation: 12,
-  },
-  navItem: {
-    alignItems: 'center',
-    width: 68,
-  },
-  navIcon: {
-    fontSize: 18,
-    color: '#181725',
+    minHeight: 40,
     marginBottom: 4,
   },
-  navLabel: {
-    fontSize: 12,
+  cardSubtitle: {
+    fontSize: 14,
+    color: '#7C7C7C',
+    marginBottom: 18,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  price: {
+    fontSize: 18,
+    fontWeight: '600',
     color: '#181725',
   },
-  navActive: {
-    color: '#53B175',
-    fontWeight: '700',
+  addButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    backgroundColor: '#53B175',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addButtonText: {
+    fontSize: 24,
+    lineHeight: 26,
+    color: '#FFFFFF',
+  },
+  emptyState: {
+    width: '100%',
+    paddingVertical: 40,
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#181725',
+    marginBottom: 8,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: '#7C7C7C',
   },
 });
