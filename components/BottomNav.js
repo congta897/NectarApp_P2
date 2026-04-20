@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const navItems = [
@@ -16,7 +16,7 @@ const navItems = [
     route: 'Favourites',
     params: { initialQuery: '', title: 'Favourite', activeFilterId: null, activeFilterGroup: null },
   },
-  { label: 'Account', icon: '☺' },
+  { label: 'Account', icon: '☺', route: 'Account' },
 ];
 
 export default function BottomNav({ active, navigation }) {

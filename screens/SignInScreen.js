@@ -1,4 +1,4 @@
-// screens/SignInScreen.js
+﻿// screens/SignInScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native';
 
@@ -7,7 +7,7 @@ export default function SignInScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      {/* Ảnh rau củ quả trên top */}
+      {/* áº¢nh rau cá»§ quáº£ trÃªn top */}
       <Image 
         source={require('../assets/raucuqua.png')} 
         style={styles.topImage} 
@@ -16,7 +16,7 @@ export default function SignInScreen({ navigation }) {
 
       <Text style={styles.title}>Get your groceries{"\n"}with nectar</Text>
 
-      {/* Phần nhập số điện thoại - Bấm vào chuyển sang Number */}
+      {/* Pháº§n nháº­p sá»‘ Ä‘iá»‡n thoáº¡i - Báº¥m vÃ o chuyá»ƒn sang Number */}
       <TouchableOpacity 
         style={styles.phoneContainer}
         onPress={() => navigation.navigate('Number')}
@@ -30,7 +30,7 @@ export default function SignInScreen({ navigation }) {
 
       <Text style={styles.orText}>Or connect with social media</Text>
 
-      {/* Nút Google */}
+      {/* NÃºt Google */}
       <TouchableOpacity style={styles.googleButton} onPress={() => console.log('Continue with Google')}>
         <Image 
           source={require('../assets/logoGG.png')} 
@@ -40,7 +40,7 @@ export default function SignInScreen({ navigation }) {
         <Text style={styles.socialText}>Continue with Google</Text>
       </TouchableOpacity>
 
-      {/* Nút Facebook */}
+      {/* NÃºt Facebook */}
       <TouchableOpacity style={styles.facebookButton} onPress={() => console.log('Continue with Facebook')}>
         <Image 
           source={require('../assets/logoFB.png')} 
@@ -51,7 +51,7 @@ export default function SignInScreen({ navigation }) {
       </TouchableOpacity>
       <View style={styles.centerContainer}>
           <Text style={styles.userInfo}>
-            Nguyễn Mạnh Toàn - 23810310262
+            Tạ Thành Công - 23810310268
           </Text>
         </View>
     </View>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
 
-  // Phần nhập số điện thoại
+  // Pháº§n nháº­p sá»‘ Ä‘iá»‡n thoáº¡i
   phoneContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  // Nút Google
+  // NÃºt Google
   googleButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // Nút Facebook
+  // NÃºt Facebook
   facebookButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -156,3 +156,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -8,8 +9,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { addToCart } from '../services/storageService';
 
 export default function ProductDetailScreen({ navigation }) {
+  const handleAddToCart = async () => {
+    try {
+      await addToCart('apple', 1);
+      Alert.alert('Đã thêm', 'Sản phẩm đã được thêm vào giỏ hàng.');
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể thêm vào giỏ hàng.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F2F3F2" />
@@ -61,7 +72,7 @@ export default function ProductDetailScreen({ navigation }) {
           <InfoRow title="Nutritions" badge="100gr" />
           <InfoRow title="Review" stars="★★★★★" />
 
-          <TouchableOpacity style={styles.basketButton}>
+          <TouchableOpacity style={styles.basketButton} onPress={handleAddToCart}>
             <Text style={styles.basketText}>Add To Basket</Text>
           </TouchableOpacity>
         </View>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -10,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import BottomNav from '../components/BottomNav';
+import { addToCart } from '../services/storageService';
 
 const exclusiveOffers = [
   {
@@ -79,6 +81,15 @@ const meats = [
 ];
 
 export default function HomeScreen({ navigation }) {
+  const handleAddToCart = async (productId) => {
+    try {
+      await addToCart(productId, 1);
+      Alert.alert('Đã thêm', 'Sản phẩm đã được thêm vào giỏ hàng.');
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể thêm vào giỏ hàng.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -92,7 +103,6 @@ export default function HomeScreen({ navigation }) {
           />
           <Text style={styles.location}>Dhaka, Banassre</Text>
         </View>
-
         <View style={styles.searchBox}>
           <Text style={styles.searchIcon}>⌕</Text>
           <TextInput
@@ -121,6 +131,7 @@ export default function HomeScreen({ navigation }) {
               key={item.id}
               item={item}
               onPress={() => item.onPress && navigation.navigate(item.onPress)}
+              onAdd={() => handleAddToCart(item.id)}
             />
           ))}
         </View>
@@ -128,7 +139,7 @@ export default function HomeScreen({ navigation }) {
         <SectionHeader title="Best Selling" />
         <View style={styles.cardRow}>
           {bestSelling.map((item) => (
-            <ProductCard key={item.id} item={item} />
+            <ProductCard key={item.id} item={item} onAdd={() => handleAddToCart(item.id)} />
           ))}
         </View>
 
@@ -148,7 +159,7 @@ export default function HomeScreen({ navigation }) {
 
         <View style={styles.cardRow}>
           {meats.map((item) => (
-            <ProductCard key={item.id} item={item} />
+            <ProductCard key={item.id} item={item} onAdd={() => handleAddToCart(item.id)} />
           ))}
         </View>
       </ScrollView>
@@ -167,7 +178,7 @@ function SectionHeader({ title }) {
   );
 }
 
-function ProductCard({ item, onPress }) {
+function ProductCard({ item, onPress, onAdd }) {
   return (
     <TouchableOpacity activeOpacity={0.9} style={styles.productCard} onPress={onPress}>
       <Image source={item.image} style={styles.productImage} resizeMode="contain" />
@@ -175,7 +186,7 @@ function ProductCard({ item, onPress }) {
       <Text style={styles.productSubtitle}>{item.subtitle}</Text>
       <View style={styles.priceRow}>
         <Text style={styles.price}>{item.price}</Text>
-        <TouchableOpacity activeOpacity={0.85} style={styles.addButton}>
+        <TouchableOpacity activeOpacity={0.85} style={styles.addButton} onPress={onAdd}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
@@ -205,6 +216,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#4C4F4D',
+  },
+  logoutButton: {
+    alignSelf: 'flex-end',
+    marginRight: 20,
+    marginBottom: 14,
+    backgroundColor: '#F4F4F4',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  },
+  logoutButtonText: {
+    color: '#53B175',
+    fontWeight: '700',
+    fontSize: 14,
   },
   searchBox: {
     marginHorizontal: 20,

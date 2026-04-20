@@ -1,4 +1,4 @@
-// screens/SignupScreen.js
+﻿// screens/SignupScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
 
@@ -50,7 +50,7 @@ export default function SignupScreen({ navigation }) {
         </TouchableOpacity>
         <View style={styles.centerContainer}>
           <Text style={styles.userInfo}>
-            Nguyễn Mạnh Toàn - 23810310262
+            Tạ Thành Công - 23810310268
           </Text>
         </View>
       </View>
@@ -81,3 +81,4 @@ const styles = StyleSheet.create({
   userInfo: { fontSize: 14, color: '#999' },
   centerContainer: { alignItems: 'center', marginTop: 20 },
 });
+

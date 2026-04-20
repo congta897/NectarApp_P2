@@ -1,4 +1,4 @@
-// screens/VerificationScreen.js
+﻿// screens/VerificationScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
 
@@ -45,7 +45,7 @@ export default function VerificationScreen({ navigation }) {
         </TouchableOpacity>
         <View style={styles.centerContainer}>
           <Text style={styles.userInfo}>
-            Nguyễn Mạnh Toàn - 23810310262
+            Tạ Thành Công - 23810310268
           </Text>
         </View>
       </View>
@@ -81,3 +81,4 @@ const styles = StyleSheet.create({
   centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },   
   userInfo: { fontSize: 16, color: '#999' },
 });
+

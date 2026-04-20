@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -9,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import BottomNav from '../components/BottomNav';
+import { addToCart } from '../services/storageService';
 import {
   favouriteProductIds,
   formatPrice,
@@ -24,6 +26,26 @@ export default function FavouritesScreen({ navigation, route }) {
     matchesProductSearch(item, filterQuery)
   );
 
+  const handleAddToCart = async (productId) => {
+    try {
+      await addToCart(productId, 1);
+      Alert.alert('Đã thêm', 'Sản phẩm đã được thêm vào giỏ hàng.');
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể thêm vào giỏ hàng.');
+    }
+  };
+
+  const handleAddAllToCart = async () => {
+    try {
+      for (const item of favourites) {
+        await addToCart(item.id, 1);
+      }
+      Alert.alert('Đã thêm tất cả', 'Tất cả sản phẩm yêu thích đã được thêm vào giỏ hàng.');
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể thêm tất cả sản phẩm vào giỏ hàng.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -34,7 +56,7 @@ export default function FavouritesScreen({ navigation, route }) {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
         {favourites.map((item) => (
-          <TouchableOpacity key={item.id} activeOpacity={0.8} style={styles.itemRow}>
+          <View key={item.id} style={styles.itemRow}>
             <Image source={getProductImage(item.imageKey)} style={styles.itemImage} resizeMode="contain" />
 
             <View style={styles.itemTextWrap}>
@@ -44,9 +66,11 @@ export default function FavouritesScreen({ navigation, route }) {
 
             <View style={styles.itemRight}>
               <Text style={styles.itemPrice}>{formatPrice(item.price)}</Text>
-              <Text style={styles.chevron}>{'>'}</Text>
+              <TouchableOpacity activeOpacity={0.8} style={styles.addButton} onPress={() => handleAddToCart(item.id)}>
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          </View>
         ))}
 
         {!favourites.length ? (
@@ -61,7 +85,7 @@ export default function FavouritesScreen({ navigation, route }) {
         <TouchableOpacity
           activeOpacity={0.85}
           style={styles.addAllButton}
-          onPress={() => navigation.navigate('Cart')}
+          onPress={handleAddAllToCart}
         >
           <Text style={styles.addAllText}>Add All To Cart</Text>
         </TouchableOpacity>
@@ -143,6 +167,19 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#181725',
     marginRight: 12,
+  },
+  addButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#53B175',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
   },
   chevron: {
     fontSize: 18,

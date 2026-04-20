@@ -1,4 +1,4 @@
-const products = [
+﻿const products = [
   {
     id: 'egg-red',
     title: 'Egg Chicken Red',
@@ -120,6 +120,30 @@ const products = [
     imageKey: 'ginger',
     searchableText: 'ginger root',
   },
+  {
+    id: 'apple',
+    title: 'Red Apple',
+    subtitle: '1kg, Price',
+    price: 4.99,
+    imageKey: 'apple',
+    searchableText: 'red apple fruit',
+  },
+  {
+    id: 'beef',
+    title: 'Beef Bone',
+    subtitle: '1kg, Price',
+    price: 4.99,
+    imageKey: 'beef',
+    searchableText: 'beef bone meat',
+  },
+  {
+    id: 'chicken',
+    title: 'Broiler Chicken',
+    subtitle: '1kg, Price',
+    price: 4.99,
+    imageKey: 'chicken',
+    searchableText: 'broiler chicken meat',
+  },
 ];
 
 const searchProductIds = [
@@ -158,6 +182,9 @@ const productImages = {
   pepper: require('./assets/ớt chuông.png'),
   banana: require('./assets/banana.png'),
   ginger: require('./assets/gừng.png'),
+  apple: require('./assets/apple.png'),
+  beef: require('./assets/thịt bò.png'),
+  chicken: require('./assets/thịt gà.png'),
 };
 
 function getProductById(productId) {
@@ -165,9 +192,7 @@ function getProductById(productId) {
 }
 
 function getProductsByIds(productIds) {
-  return productIds
-    .map((productId) => getProductById(productId))
-    .filter(Boolean);
+  return productIds.map((productId) => getProductById(productId)).filter(Boolean);
 }
 
 function getProductImage(imageKey) {

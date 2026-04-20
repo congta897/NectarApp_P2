@@ -1,4 +1,4 @@
-// screens/NumberScreen.js
+﻿// screens/NumberScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
 
@@ -24,8 +24,8 @@ export default function NumberScreen({ navigation }) {
 
         <View style={styles.inputContainer}>
           <View style={styles.flagContainer}>
-                    <Text style={styles.flag}>🇻🇳</Text>
-                  </View>
+            <Text style={styles.flag}>🇻🇳</Text>
+          </View>
           <Text style={styles.countryCode}>+84</Text>
           <TextInput
             style={styles.input}
@@ -46,7 +46,7 @@ export default function NumberScreen({ navigation }) {
         </TouchableOpacity>
         <View style={styles.centerContainer}>
           <Text style={styles.userInfo}>
-            Nguyễn Mạnh Toàn - 23810310262
+            Tạ Thành Công - 23810310268
           </Text>
         </View>
       </View>
@@ -87,3 +87,4 @@ const styles = StyleSheet.create({
   flag: {    fontSize: 24,
   },
 });
+

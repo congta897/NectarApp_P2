@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -10,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import BottomNav from '../components/BottomNav';
+import { addToCart } from '../services/storageService';
 import {
   formatPrice,
   getProductImage,
@@ -29,6 +31,15 @@ export default function ExploreScreen({ navigation, route }) {
   }, [incomingQuery]);
 
   const filteredProducts = products.filter((item) => matchesProductSearch(item, query));
+
+  const handleAddToCart = async (productId) => {
+    try {
+      await addToCart(productId, 1);
+      Alert.alert('Đã thêm', 'Sản phẩm đã được thêm vào giỏ hàng.');
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể thêm vào giỏ hàng.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -83,7 +94,7 @@ export default function ExploreScreen({ navigation, route }) {
             <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
             <View style={styles.priceRow}>
               <Text style={styles.price}>{formatPrice(item.price)}</Text>
-              <TouchableOpacity activeOpacity={0.85} style={styles.addButton}>
+              <TouchableOpacity activeOpacity={0.85} style={styles.addButton} onPress={() => handleAddToCart(item.id)}>
                 <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
             </View>

@@ -1,4 +1,4 @@
-// screens/LocationScreen.js
+﻿// screens/LocationScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native';
 
@@ -10,12 +10,12 @@ export default function LocationScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      {/* Nút Back */}
+      {/* NÃºt Back */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
-      {/* Ảnh Map trên đỉnh */}
+      {/* áº¢nh Map trÃªn Ä‘á»‰nh */}
       <Image 
         source={require('../assets/map.png')} 
         style={styles.mapImage} 
@@ -32,7 +32,7 @@ export default function LocationScreen({ navigation }) {
         <Text style={styles.label}>Your Zone</Text>
         <TouchableOpacity style={styles.dropdown}>
           <Text style={styles.dropdownText}>{zone}</Text>
-          <Text style={styles.dropdownArrow}>▼</Text>
+          <Text style={styles.dropdownArrow}>▾</Text>
         </TouchableOpacity>
       </View>
 
@@ -41,11 +41,11 @@ export default function LocationScreen({ navigation }) {
         <Text style={styles.label}>Your Area</Text>
         <TouchableOpacity style={styles.dropdown}>
           <Text style={styles.dropdownText}>{area}</Text>
-          <Text style={styles.dropdownArrow}>▼</Text>
+          <Text style={styles.dropdownArrow}>▾</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Nút Submit */}
+      {/* NÃºt Submit */}
       <TouchableOpacity 
         style={styles.submitButton}
         onPress={() => navigation.navigate('Login')}
@@ -54,7 +54,7 @@ export default function LocationScreen({ navigation }) {
       </TouchableOpacity>
       <View style={styles.centerContainer}>
           <Text style={styles.userInfo}>
-            Nguyễn Mạnh Toàn - 23810310262
+            Tạ Thành Công - 23810310268
           </Text>
         </View>
     </View>
@@ -148,3 +148,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+

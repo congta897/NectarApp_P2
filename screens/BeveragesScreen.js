@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -8,10 +9,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { addToCart } from '../services/storageService';
 import { beverageProductIds, formatPrice, getProductImage, getProductsByIds } from '../data';
 
 export default function BeveragesScreen({ navigation }) {
   const beverages = getProductsByIds(beverageProductIds);
+
+  const handleAddToCart = async (productId) => {
+    try {
+      await addToCart(productId, 1);
+      Alert.alert('Đã thêm', 'Sản phẩm đã được thêm vào giỏ hàng.');
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể thêm vào giỏ hàng.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -41,7 +52,7 @@ export default function BeveragesScreen({ navigation }) {
 
             <View style={styles.priceRow}>
               <Text style={styles.price}>{formatPrice(item.price)}</Text>
-              <TouchableOpacity activeOpacity={0.85} style={styles.addButton}>
+              <TouchableOpacity activeOpacity={0.85} style={styles.addButton} onPress={() => handleAddToCart(item.id)}>
                 <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
             </View>
