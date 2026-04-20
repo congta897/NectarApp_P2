@@ -12,6 +12,24 @@
 - Lưu lịch sử đơn hàng và thông tin đơn hàng sau khi thanh toán.
 - Điều hướng giữa các màn hình: Home, Explore, Cart, Orders, Account.
 
+## Câu trả lời của 3 câu hỏi:
+AsyncStorage hoạt động như thế nào?
+- AsyncStorage là một cơ chế lưu trữ dữ liệu dạng key–value trong ứng dụng React Native. Dữ liệu được lưu trực tiếp vào bộ nhớ của thiết bị, vì vậy vẫn tồn tại ngay cả khi người dùng tắt ứng dụng hoặc khởi động lại thiết bị. AsyncStorage hoạt động theo cơ chế bất đồng bộ (asynchronous), do đó việc đọc/ghi dữ liệu cần sử dụng async/await hoặc Promise (.then()).
+
+AsyncStorage thường được sử dụng để lưu các dữ liệu như token đăng nhập, thông tin người dùng hoặc các thiết lập của ứng dụng.
+
+Vì sao dùng AsyncStorage thay vì biến state?
+- Biến state trong React chỉ lưu trữ dữ liệu tạm thời trong bộ nhớ RAM và sẽ bị mất khi ứng dụng bị reload hoặc đóng lại. Trong khi đó, AsyncStorage cho phép lưu trữ dữ liệu lâu dài trên thiết bị, giúp dữ liệu vẫn được giữ nguyên giữa các lần mở ứng dụng.
+
+Ngoài ra, state được sử dụng chủ yếu để quản lý và cập nhật giao diện người dùng (UI), còn AsyncStorage phù hợp hơn cho việc lưu trữ dữ liệu cần sử dụng lâu dài. Vì vậy, hai cơ chế này không thay thế cho nhau mà thường được sử dụng kết hợp trong thực tế.
+
+So sánh với Context API
+- AsyncStorage và Context API phục vụ hai mục đích khác nhau trong ứng dụng React Native. AsyncStorage được dùng để lưu trữ dữ liệu lâu dài trên thiết bị, trong khi Context API được sử dụng để chia sẻ dữ liệu giữa các component trong toàn bộ ứng dụng.
+
+Context API hoạt động đồng bộ và có thể cập nhật giao diện ngay khi dữ liệu thay đổi, nhưng dữ liệu sẽ bị mất khi ứng dụng reload. Ngược lại, AsyncStorage hoạt động bất đồng bộ, không tự động cập nhật UI, nhưng có khả năng lưu trữ dữ liệu bền vững.
+
+Trong thực tế, hai công cụ này thường được sử dụng kết hợp: AsyncStorage dùng để lưu dữ liệu (ví dụ token), còn Context API dùng để quản lý và cung cấp dữ liệu đó cho toàn bộ ứng dụng trong quá trình chạy.
+
 ## Hướng dẫn chạy app
 1. Cài đặt Node.js và Expo CLI nếu chưa có.
 2. Mở thư mục dự án.
