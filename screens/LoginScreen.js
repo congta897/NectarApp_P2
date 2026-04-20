@@ -1,10 +1,41 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
+﻿import React, { useState } from 'react';
+import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { saveAuthToken, saveAuthUser } from '../services/storageService';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('imshuvo97@gmail.com');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Thiếu thông tin', 'Vui lòng nhập email và password.');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const token = `nectar-token-${Date.now()}`;
+      const user = {
+        email: email.trim(),
+        loginAt: new Date().toISOString(),
+      };
+
+      await saveAuthToken(token);
+      await saveAuthUser(user);
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      Alert.alert('Đăng nhập thất bại', message || 'Không thể lưu dữ liệu đăng nhập. Vui lòng thử lại.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -57,9 +88,10 @@ export default function LoginScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => navigation.replace('Home')}
+        onPress={handleLogin}
+        disabled={isSubmitting}
       >
-        <Text style={styles.loginButtonText}>Log In</Text>
+        <Text style={styles.loginButtonText}>{isSubmitting ? 'Logging in...' : 'Log In'}</Text>
       </TouchableOpacity>
 
       <View style={styles.signupContainer}>
@@ -75,7 +107,7 @@ export default function LoginScreen({ navigation }) {
       </View>
 
       <View style={styles.centerContainer}>
-        <Text style={styles.userInfo}>Nguyen Manh Toan - 23810310262</Text>
+        <Text style={styles.userInfo}>Tạ Thành Công - 23810310268</Text>
       </View>
     </View>
   );
@@ -179,3 +211,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+

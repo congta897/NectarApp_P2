@@ -1,9 +1,10 @@
 // App.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { getAuthToken } from './services/storageService';
 
-// Import các màn hình từ thư mục screens
 import SplashScreen from './screens/SplashScreen';
 import OnboardingScreen from './screens/OnboardingScreen';
 import SignInScreen from './screens/SignInScreen';
@@ -19,13 +20,48 @@ import BeveragesScreen from './screens/BeveragesScreen';
 import FiltersScreen from './screens/FiltersScreen';
 import CartScreen from './screens/CartScreen';
 import FavouritesScreen from './screens/FavouritesScreen';
+import OrderSuccessScreen from './screens/OrderSuccessScreen';
+import OrdersScreen from './screens/OrdersScreen';
+import AccountScreen from './screens/AccountScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [initialRouteName, setInitialRouteName] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const bootstrapAuth = async () => {
+      try {
+        const savedToken = await getAuthToken();
+        if (isMounted) {
+          setInitialRouteName(savedToken ? 'Home' : 'Splash');
+        }
+      } catch (error) {
+        if (isMounted) {
+          setInitialRouteName('Splash');
+        }
+      }
+    };
+
+    bootstrapAuth();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (!initialRouteName) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#53B175" />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
@@ -41,7 +77,19 @@ export default function App() {
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen name="Favourites" component={FavouritesScreen} />
         <Stack.Screen name="Beverages" component={BeveragesScreen} />
+        <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
+        <Stack.Screen name="Orders" component={OrdersScreen} />
+        <Stack.Screen name="Account" component={AccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+});
